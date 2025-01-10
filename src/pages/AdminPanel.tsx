@@ -180,6 +180,8 @@ export default function AdminPanel() {
             className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            autoComplete="off"
+            autoFocus={false}
           />
         </div>
       </div>
