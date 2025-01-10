@@ -5,6 +5,17 @@ import {
   Package,
   Users,
 } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export const AdminSidebar = () => {
   const location = useLocation();
@@ -22,12 +33,45 @@ export const AdminSidebar = () => {
           label="Dashboard" 
           isActive={location.pathname === '/admin'}
         />
-        <SidebarLink 
-          icon={<PlusCircle />} 
-          href="/admin/add" 
-          label="Əlavə et" 
-          isActive={location.pathname === '/admin/add'}
-        />
+        <Drawer>
+          <DrawerTrigger asChild>
+            <button className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left
+              ${location.pathname === '/admin/add' 
+                ? 'bg-white/20 text-white' 
+                : 'text-white/80 hover:text-white hover:bg-white/10'}`}>
+              <PlusCircle className="h-4 w-4" />
+              <span>Əlavə et</span>
+            </button>
+          </DrawerTrigger>
+          <DrawerContent side="right" className="w-[400px]">
+            <DrawerHeader>
+              <DrawerTitle>Yeni məhsul əlavə et</DrawerTitle>
+            </DrawerHeader>
+            <div className="p-4 space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Ad</Label>
+                <Input id="name" placeholder="Məhsulun adı" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="price">Qiymət</Label>
+                <Input id="price" type="number" placeholder="Qiymət" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">Təsvir</Label>
+                <Textarea id="description" placeholder="Məhsul haqqında məlumat" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="image">Şəkil URL</Label>
+                <Input id="image" placeholder="Şəklin linki" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="category">Kateqoriya</Label>
+                <Input id="category" placeholder="Kateqoriya" />
+              </div>
+              <Button className="w-full">Əlavə et</Button>
+            </div>
+          </DrawerContent>
+        </Drawer>
         <SidebarLink 
           icon={<Package />} 
           href="/admin/products" 
