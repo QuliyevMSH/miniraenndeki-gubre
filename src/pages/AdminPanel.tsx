@@ -229,63 +229,53 @@ export default function AdminPanel() {
       <h1 className="text-2xl font-bold">Məhsul Əlavə Et</h1>
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <div className="space-y-4">
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="name">Ad</Label>
-            <Input
-              id="name"
+            <Input 
+              id="name" 
               value={newProduct.name}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, name: e.target.value })
-              }
+              onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+              placeholder="Məhsulun adı" 
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="price">Qiymət</Label>
-            <Input
-              id="price"
-              type="number"
+            <Input 
+              id="price" 
+              type="number" 
               value={newProduct.price}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, price: e.target.value })
-              }
+              onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+              placeholder="Qiymət" 
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="description">Təsvir</Label>
-            <Textarea
-              id="description"
+            <Textarea 
+              id="description" 
               value={newProduct.description}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  description: e.target.value,
-                })
-              }
+              onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+              placeholder="Məhsul haqqında məlumat" 
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="image">Şəkil URL</Label>
-            <Input
-              id="image"
+            <Input 
+              id="image" 
               value={newProduct.image}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, image: e.target.value })
-              }
+              onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+              placeholder="Şəklin linki" 
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="category">Kateqoriya</Label>
-            <Input
-              id="category"
+            <Input 
+              id="category" 
               value={newProduct.category}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, category: e.target.value })
-              }
+              onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+              placeholder="Kateqoriya" 
             />
           </div>
-          <Button onClick={handleAddProduct} className="w-full">
-            Əlavə Et
-          </Button>
+          <Button onClick={handleAddProduct} className="w-full">Əlavə et</Button>
         </div>
       </div>
     </div>
