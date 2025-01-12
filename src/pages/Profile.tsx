@@ -5,7 +5,18 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Tables } from '@/integrations/supabase/types';
 
 type Profile = Pick<Tables<'profiles'>, 'first_name' | 'last_name' | 'avatar_url'>;
@@ -174,6 +185,41 @@ export default function Profile() {
     }
   }
 
+  const handleDeleteAccount = async () => {
+    try {
+      if (!user) return;
+
+      // Delete user's profile
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', user.id);
+
+      if (profileError) throw profileError;
+
+      // Delete the user's auth account
+      const { error: authError } = await supabase.auth.admin.deleteUser(user.id);
+      
+      if (authError) throw authError;
+
+      toast({
+        title: "Hesab silindi",
+        description: "Hesabınız uğurla silindi",
+      });
+
+      // Sign out and redirect to auth page
+      await supabase.auth.signOut();
+      navigate('/auth');
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      toast({
+        variant: "destructive",
+        title: "Xəta baş verdi",
+        description: "Hesabınız silinmədi",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -251,6 +297,31 @@ export default function Profile() {
           >
             Yadda saxla
           </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="destructive"
+                className="w-full"
+              >
+                Hesabını sil
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Hesabınızı silmək istədiyinizə əminsiniz?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Bu əməliyyat geri qaytarıla bilməz. Hesabınız və bütün məlumatlarınız silinəcək.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>İmtina</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteAccount}>
+                  Hesabı sil
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>
