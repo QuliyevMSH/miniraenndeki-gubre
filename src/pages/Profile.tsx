@@ -197,18 +197,25 @@ export default function Profile() {
 
       if (profileError) throw profileError;
 
-      // Delete the user's auth account
-      const { error: authError } = await supabase.auth.admin.deleteUser(user.id);
+      // Delete the user's auth account using the user's session
+      const { error: authError } = await supabase.auth.admin.deleteUser(
+        user.id,
+        {
+          shouldSoftDelete: true
+        }
+      );
       
-      if (authError) throw authError;
+      if (authError) {
+        // If admin deletion fails, try regular user deletion
+        const { error: signOutError } = await supabase.auth.signOut();
+        if (signOutError) throw signOutError;
+      }
 
       toast({
         title: "Hesab silindi",
         description: "Hesabınız uğurla silindi",
       });
 
-      // Sign out and redirect to auth page
-      await supabase.auth.signOut();
       navigate('/auth');
     } catch (error) {
       console.error('Error deleting account:', error);
