@@ -1,4 +1,4 @@
-import { QuestionCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 export const AgronomistAdvice = () => {
   return (
@@ -9,7 +9,7 @@ export const AgronomistAdvice = () => {
         <div className="space-y-8 max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-start gap-4">
-              <QuestionCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+              <HelpCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl font-semibold text-primary mb-4">
                   Gübrə verərkən nələri nəzərə almalıyam?
@@ -23,7 +23,7 @@ export const AgronomistAdvice = () => {
 
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-start gap-4">
-              <QuestionCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+              <HelpCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl font-semibold text-primary mb-4">
                   Meyvə ağaclarına hansı gübrələri vermək məsləhətdir?
