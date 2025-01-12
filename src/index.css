@@ -41,7 +41,7 @@
 }
 
 .product-card {
-  @apply relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-lg;
+  @apply relative overflow-hidden bg-white shadow-md transition-all duration-300;
 }
 
 .product-card:hover img {
