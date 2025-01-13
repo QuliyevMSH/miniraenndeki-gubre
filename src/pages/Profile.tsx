@@ -22,7 +22,7 @@ import { Tables } from '@/integrations/supabase/types';
 type Profile = Pick<Tables<'profiles'>, 'first_name' | 'last_name' | 'avatar_url'>;
 
 export default function Profile() {
-  const { user } = useAuthStore();
+  const { user, signOut } = useAuthStore();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
@@ -87,7 +87,7 @@ export default function Profile() {
         .from('profiles')
         .select('first_name, last_name, avatar_url')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       
@@ -189,18 +189,16 @@ export default function Profile() {
     try {
       if (!user) return;
 
-      // Delete user's profile first
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', user.id);
+      // Call our Edge Function using the Supabase client
+      const { error } = await supabase.functions.invoke('delete-user', {
+        body: { user_id: user.id },
+      });
 
-      if (profileError) throw profileError;
+      if (error) throw error;
 
-      // Sign out the user which will effectively delete their session
-      const { error: signOutError } = await supabase.auth.signOut();
-      if (signOutError) throw signOutError;
-
+      // Sign out immediately after successful deletion
+      await signOut();
+      
       toast({
         title: "Hesab silindi",
         description: "Hesabınız uğurla silindi",
@@ -323,4 +321,4 @@ export default function Profile() {
       </div>
     </div>
   );
-}
+};

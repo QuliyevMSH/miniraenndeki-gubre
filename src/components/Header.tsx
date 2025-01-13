@@ -40,7 +40,7 @@ export const Header = () => {
           .from('profiles')
           .select('role')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching profile:', error);
@@ -66,7 +66,7 @@ export const Header = () => {
 
     checkAdminStatus();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_OUT') {
         if (mounted) {
           setIsAdmin(false);
@@ -143,9 +143,11 @@ export const Header = () => {
                 >
                   <ShoppingCart className="h-5 w-5" />
                   {cartItemsCount > 0 && (
-                    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground">
-                      {cartItemsCount}
-                    </span>
+                    <div className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary">
+                      <div className="text-xs font-medium text-primary-foreground">
+                        {cartItemsCount}
+                      </div>
+                    </div>
                   )}
                 </Button>
               </SheetTrigger>
