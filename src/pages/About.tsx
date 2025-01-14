@@ -78,16 +78,16 @@ const AboutPage = () => {
             className="max-w-4xl mx-auto mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
           >
             <div className="text-center p-6">
-              <h3 className="font-semibold text-gray-900">Gübrə satışı</h3>
+              <h3 className="font-semibold text-gray-900">▪ Gübrə satışı ▪</h3>
             </div>
             <div className="text-center p-6">
-              <h3 className="font-semibold text-gray-900">Aqronom Məsləhəti</h3>
+              <h3 className="font-semibold text-gray-900">▪ Aqronom Məsləhəti ▪</h3>
             </div>
             <div className="text-center p-6">
-              <h3 className="font-semibold text-gray-900">Torpaq Analizi</h3>
+              <h3 className="font-semibold text-gray-900">▪ Torpaq Analizi ▪</h3>
             </div>
             <div className="text-center p-6">
-              <h3 className="font-semibold text-gray-900">Subsidiya ilə Satış</h3>
+              <h3 className="font-semibold text-gray-900">▪ Subsidiya ilə Satış ▪</h3>
             </div>
           </motion.div>
         </div>
