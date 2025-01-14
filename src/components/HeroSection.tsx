@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 export const HeroSection = () => {
   return (
     <section 
-      className="min-h-[80vh] flex flex-col items-center justify-center space-y-8 relative"
+      className="min-h-[95vh] flex flex-col items-center justify-center space-y-8 relative"
       style={{
         backgroundImage: "url('https://images.pexels.com/photos/26607014/pexels-photo-26607014/free-photo-of-rural-field-in-countryside.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
         backgroundSize: 'cover',
