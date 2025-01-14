@@ -1,4 +1,5 @@
-import { Link } from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
+import { Link as RouterLink } from 'react-router-dom';
 import { Button } from './ui/button';
 
 export const HeroSection = () => {
@@ -27,7 +28,7 @@ export const HeroSection = () => {
         </h1>
         
         <div className="flex gap-4 animate-fade-in delay-200">
-          <Link
+          <ScrollLink
             to="products-section"
             smooth={true}
             duration={500}
@@ -36,18 +37,13 @@ export const HeroSection = () => {
             <Button size="lg" variant="default">
               Məhsullar
             </Button>
-          </Link>
+          </ScrollLink>
           
-          <Link
-            to="footer"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer"
-          >
+          <RouterLink to="/contact" className="cursor-pointer">
             <Button size="lg" variant="default">
               Əlaqə
             </Button>
-          </Link>
+          </RouterLink>
         </div>
       </div>
     </section>
