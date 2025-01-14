@@ -68,6 +68,10 @@ export const CartSheet = () => {
   useEffect(() => {
     fetchBasketItems();
 
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) return;
+
     const channel = supabase
       .channel('basket_changes')
       .on(
@@ -75,7 +79,8 @@ export const CartSheet = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'basket'
+          table: 'basket',
+          filter: `user_id=eq.${user.id}`
         },
         () => {
           fetchBasketItems();
