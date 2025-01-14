@@ -66,31 +66,34 @@ export const CartSheet = () => {
   };
 
   useEffect(() => {
-    fetchBasketItems();
+    const setupRealtimeSubscription = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) return;
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) return;
+      const channel = supabase
+        .channel('basket_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'basket',
+            filter: `user_id=eq.${user.id}`
+          },
+          () => {
+            fetchBasketItems();
+          }
+        )
+        .subscribe();
 
-    const channel = supabase
-      .channel('basket_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'basket',
-          filter: `user_id=eq.${user.id}`
-        },
-        () => {
-          fetchBasketItems();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
+      return () => {
+        supabase.removeChannel(channel);
+      };
     };
+
+    fetchBasketItems();
+    setupRealtimeSubscription();
   }, []);
 
   const updateQuantity = async (itemId: number, newQuantity: number) => {
