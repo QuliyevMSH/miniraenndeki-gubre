@@ -9,7 +9,8 @@ export const HeroSection = () => {
         backgroundImage: "url('https://images.pexels.com/photos/26607014/pexels-photo-26607014/free-photo-of-rural-field-in-countryside.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
       }}
     >
       <div className="absolute inset-0 bg-black/40" />
