@@ -16,6 +16,7 @@ interface BasketItem {
     price: number;
     image: string;
     category: string;
+    description: string;
   };
 }
 
@@ -48,7 +49,8 @@ export const CartSheet = () => {
             name,
             price,
             image,
-            category
+            category,
+            description
           )
         `)
         .eq('user_id', user.id)
@@ -66,6 +68,7 @@ export const CartSheet = () => {
         price: item.products.price,
         image: item.products.image,
         category: item.products.category,
+        description: item.products.description,
         quantity: item.quantity
       }));
       updateCartItems(cartItems);
