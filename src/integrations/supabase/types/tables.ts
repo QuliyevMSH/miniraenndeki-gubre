@@ -227,7 +227,7 @@ export interface Tables {
         foreignKeyName: "media_likes_user_id_fkey";
         columns: ["user_id"];
         isOneToOne: false;
-        referencedRelation: "users";
+        referencedRelation: "profiles";
         referencedColumns: ["id"];
       }
     ];
