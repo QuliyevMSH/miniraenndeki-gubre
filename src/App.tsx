@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import Index from '@/pages/Index';
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
@@ -9,7 +9,7 @@ import Profile from '@/pages/Profile';
 import Payment from '@/pages/Payment';
 import ProductDetail from '@/pages/ProductDetail';
 import AdminPanel from '@/pages/AdminPanel';
-import AdminRoute from '@/components/AdminRoute';
+import { AdminRoute } from '@/components/AdminRoute';
 
 function App() {
   return (
