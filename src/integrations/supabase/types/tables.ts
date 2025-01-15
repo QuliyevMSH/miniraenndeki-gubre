@@ -191,7 +191,7 @@ export interface Tables {
         foreignKeyName: "media_user_id_fkey";
         columns: ["user_id"];
         isOneToOne: false;
-        referencedRelation: "users";
+        referencedRelation: "profiles";
         referencedColumns: ["id"];
       }
     ];
@@ -212,8 +212,8 @@ export interface Tables {
     Update: {
       id?: number;
       created_at?: string;
-      media_id?: number;
-      user_id?: string;
+      media_id: number;
+      user_id: string;
     };
     Relationships: [
       {
