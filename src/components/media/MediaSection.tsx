@@ -1,23 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
-import { Heart, MessageCircle, Reply, Upload } from "lucide-react";
+import { Heart, MessageCircle, Upload } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Database } from "@/integrations/supabase/types/database";
 
-interface MediaItem {
-  id: number;
-  title: string;
-  description: string;
-  media_url: string;
-  media_type: "image" | "video";
-  created_at: string;
-  user_id: string;
+type Tables = Database["public"]["Tables"]
+type MediaRow = Tables["media"]["Row"]
+type MediaLikesRow = Tables["media_likes"]["Row"]
+
+interface MediaItem extends MediaRow {
   likes: number;
   user_has_liked: boolean;
   user: {
@@ -39,25 +37,40 @@ export function MediaSection() {
 
   const fetchMediaItems = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: mediaData, error: mediaError } = await supabase
         .from("media")
         .select(`
           *,
-          user:profiles(first_name, last_name, avatar_url),
-          likes:media_likes(count),
-          user_has_liked:media_likes!left(user_id)
+          user:profiles(first_name, last_name, avatar_url)
         `)
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (mediaError) throw mediaError;
 
-      const formattedMedia = data?.map(item => ({
-        ...item,
-        likes: item.likes?.[0]?.count || 0,
-        user_has_liked: item.user_has_liked?.some(like => like.user_id === user?.id) || false
-      })) || [];
+      // Fetch likes count for each media item
+      const mediaWithLikes = await Promise.all(
+        (mediaData || []).map(async (item) => {
+          const { count } = await supabase
+            .from("media_likes")
+            .select("*", { count: "exact" })
+            .eq("media_id", item.id);
 
-      setMediaItems(formattedMedia);
+          const { data: userLike } = await supabase
+            .from("media_likes")
+            .select("*")
+            .eq("media_id", item.id)
+            .eq("user_id", user?.id || "")
+            .single();
+
+          return {
+            ...item,
+            likes: count || 0,
+            user_has_liked: !!userLike
+          };
+        })
+      );
+
+      setMediaItems(mediaWithLikes);
     } catch (error) {
       console.error("Error fetching media:", error);
       toast({
@@ -67,6 +80,10 @@ export function MediaSection() {
       });
     }
   };
+
+  useEffect(() => {
+    fetchMediaItems();
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
