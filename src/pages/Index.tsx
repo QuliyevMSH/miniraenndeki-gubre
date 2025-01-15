@@ -1,7 +1,6 @@
 import { ProductCard } from "@/components/ProductCard";
 import { AgronomistAdvice } from "@/components/AgronomistAdvice";
 import { HeroSection } from "@/components/HeroSection";
-import { MediaSection } from "@/components/media/MediaSection";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/types";
@@ -105,7 +104,6 @@ export default function Index() {
           </>
         )}
       </div>
-      <MediaSection />
       <AgronomistAdvice />
     </div>
   );

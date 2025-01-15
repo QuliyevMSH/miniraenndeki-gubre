@@ -7,12 +7,7 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      delete_product_with_baskets: {
-        Args: {
-          product_id: number
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       user_role: "admin" | "user"
