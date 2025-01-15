@@ -162,72 +162,36 @@ export interface Tables {
     Row: {
       id: number;
       created_at: string;
-      user_id: string;
-      title: string | null;
-      description: string | null;
+      title: string;
+      description: string;
       url: string;
-      type: string;
+      type: 'image' | 'video';
+      user_id: string;
     };
     Insert: {
       id?: number;
       created_at?: string;
-      user_id: string;
-      title?: string | null;
-      description?: string | null;
+      title: string;
+      description?: string;
       url: string;
-      type: string;
+      type: 'image' | 'video';
+      user_id: string;
     };
     Update: {
       id?: number;
       created_at?: string;
-      user_id?: string;
-      title?: string | null;
-      description?: string | null;
+      title?: string;
+      description?: string;
       url?: string;
-      type?: string;
+      type?: 'image' | 'video';
+      user_id?: string;
     };
     Relationships: [
       {
         foreignKeyName: "media_user_id_fkey";
         columns: ["user_id"];
         isOneToOne: false;
-        referencedRelation: "users";
-        referencedColumns: ["id"];
-      }
-    ];
-  };
-  media_likes: {
-    Row: {
-      id: number;
-      created_at: string;
-      media_id: number;
-      user_id: string;
-    };
-    Insert: {
-      id?: number;
-      created_at?: string;
-      media_id: number;
-      user_id: string;
-    };
-    Update: {
-      id?: number;
-      created_at?: string;
-      media_id?: number;
-      user_id?: string;
-    };
-    Relationships: [
-      {
-        foreignKeyName: "media_likes_media_id_fkey";
-        columns: ["media_id"];
-        isOneToOne: false;
-        referencedRelation: "media";
-        referencedColumns: ["id"];
-      },
-      {
-        foreignKeyName: "media_likes_user_id_fkey";
-        columns: ["user_id"];
-        isOneToOne: false;
-        referencedRelation: "users";
+        referencedRelation: "profiles";
         referencedColumns: ["id"];
       }
     ];
