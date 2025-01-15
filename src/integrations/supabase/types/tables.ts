@@ -158,4 +158,80 @@ export interface Tables {
     };
     Relationships: [];
   };
+
+  media: {
+    Row: {
+      id: number;
+      title: string;
+      description: string;
+      media_url: string;
+      media_type: "image" | "video";
+      created_at: string;
+      user_id: string;
+    };
+    Insert: {
+      id?: number;
+      title: string;
+      description: string;
+      media_url: string;
+      media_type: "image" | "video";
+      created_at?: string;
+      user_id: string;
+    };
+    Update: {
+      id?: number;
+      title?: string;
+      description?: string;
+      media_url?: string;
+      media_type?: "image" | "video";
+      created_at?: string;
+      user_id?: string;
+    };
+    Relationships: [
+      {
+        foreignKeyName: "media_user_id_fkey";
+        columns: ["user_id"];
+        isOneToOne: false;
+        referencedRelation: "profiles";
+        referencedColumns: ["id"];
+      }
+    ];
+  };
+
+  media_likes: {
+    Row: {
+      id: number;
+      media_id: number;
+      user_id: string;
+      created_at: string;
+    };
+    Insert: {
+      id?: number;
+      media_id: number;
+      user_id: string;
+      created_at?: string;
+    };
+    Update: {
+      id?: number;
+      media_id?: number;
+      user_id?: string;
+      created_at?: string;
+    };
+    Relationships: [
+      {
+        foreignKeyName: "media_likes_media_id_fkey";
+        columns: ["media_id"];
+        isOneToOne: false;
+        referencedRelation: "media";
+        referencedColumns: ["id"];
+      },
+      {
+        foreignKeyName: "media_likes_user_id_fkey";
+        columns: ["user_id"];
+        isOneToOne: false;
+        referencedRelation: "profiles";
+        referencedColumns: ["id"];
+      }
+    ];
+  };
 }
